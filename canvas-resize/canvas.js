@@ -84,3 +84,10 @@ function drawLines() {
     context.stroke();
   }
 }
+
+setInterval(() => {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  drawRectangles();
+  drawCircles();
+  drawLines();
+}, 1000);
