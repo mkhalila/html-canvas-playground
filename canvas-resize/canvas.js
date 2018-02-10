@@ -39,8 +39,8 @@ function genXY() {
 
 function genQuantity() {
    return parseInt(
-    Math.random() *
-     (Math.abs(window.innerHeight - window.innerWidth)/1.5)
+    Math.random() * 1.5 *
+     (Math.abs(window.innerHeight - window.innerWidth))
   );
 }
 
@@ -49,45 +49,47 @@ function genColoursString() {
   const g = parseInt(Math.random() * 255, 10);
   const b = parseInt(Math.random() * 255, 10);
   const a = Math.random().toFixed(1);
-
   return `rgba(${r},${g},${b},${a})`;
 }
 
-function drawRectangles() {
-  const rectangles = genQuantity();
-  for (let i = 0; i < rectangles; ++i) {
-    const { x, y } = genXY();
-    context.fillStyle = genColoursString();
-    context.fillRect(x, y, Math.random() * 150, Math.random() * 150);
-  }
+function drawRectangle() {
+  const { x, y } = genXY();
+  context.fillStyle = genColoursString();
+  context.fillRect(x, y, Math.random() * 120, Math.random() * 120);
 }
 
-function drawCircles() {
-  const circles = genQuantity();
-  for (let i = 0; i < circles; ++i) {
-    const { x, y } = genXY();
-    context.beginPath();
-    context.arc(x, y, Math.random() * 100, Math.random() * 360, Math.PI * Math.random() * 2, Math.random() >= 0.5);
-    context.strokeStyle = genColoursString();
-    context.stroke();
-  }
+function drawCircle() {
+  const { x, y } = genXY();
+  context.beginPath();
+  context.arc(x, y, Math.random() * 75, Math.random() * 360, Math.PI * Math.random() * 2, Math.random() >= 0.5);
+  context.strokeStyle = genColoursString();
+  context.stroke();
 }
 
-function drawLines() {
-  const lines = genQuantity();
-  for (let i = 0; i < lines; ++i) {
-    const { x, y } = genXY();
-    context.beginPath();
-    context.moveTo(x, y);
-    context.lineTo(genXY().x, genXY().y);
-    context.strokeStyle = genColoursString();
-    context.stroke();
-  }
+function drawLine() {
+  const { x, y } = genXY();
+  context.beginPath();
+  context.moveTo(x, y);
+  context.lineTo(genXY().x, genXY().y);
+  context.strokeStyle = genColoursString();
+  context.stroke();
 }
 
 setInterval(() => {
   context.clearRect(0, 0, canvas.width, canvas.height);
-  drawRectangles();
-  drawCircles();
-  drawLines();
+  const elements = genQuantity();
+
+  for (let i = 0; i < elements; ++i) {
+    const randInt = Math.floor(Math.random() * (3 - 1 + 1) + 1);
+    switch(randInt) {
+      case 1: 
+        drawRectangle();
+        break;
+      case 2:
+        drawCircle();
+        break;
+    default: 
+      drawLine();
+    }
+  }
 }, 1000);
